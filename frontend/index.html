@@ -1,98 +1,74 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <title>Angela Store</title>
-        <link rel="stylesheet" href="estilos.css">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
-    
-    </head>
-    <body>
-
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angela Store</title>
+    <link rel="stylesheet" href="estilos.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
 
     <header>
-            <h1>Angela Store</h1>
-            <nav>
-                <ul>
-                    <li><a href="#">Inicio</a></li>
-                    <li><a href="#">Catergorias</a></li>
-                </ul>
-            </nav>
+        <h1>Angela Store</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Inicio</a></li>
+                <li><a href="#">Categorías</a></li>
+                <li><a href="#" id="linkAdmin">Administrar</a></li>
+            </ul>
+        </nav>
 
-            <div class="acciones">
-        <div class="carrito">
-            <img src="img/shopping_cart_24dp_8C1AF6_FILL0_wght400_GRAD0_opsz24.png" class="icono" id="iconoCarrito">
-            <span class="contador" id="contador">0</span>
-        </div>
+        <div class="acciones">
+            <div class="carrito">
+                <img src="img/shopping_cart_24dp_8C1AF6_FILL0_wght400_GRAD0_opsz24.png" class="icono" id="iconoCarrito">
+                <span class="contador" id="contador">0</span>
+            </div>
             <img src="img/account_circle_24dp_8C1AF6_FILL0_wght400_GRAD0_opsz24.png" class="icono">
-        </div>
-
-        <div class="busqueda">
-            <input type="text" placeholder="Buscar productos..." id="buscador">
-            <button id="btnBuscar">Buscar</button>
         </div>
     </header>
 
-    <section class="productos">
-        <div class="card">
-            <img src="https://png.pngtree.com/png-vector/20240815/ourmid/pngtree-classic-white-t-shirt-perfect-for-custom-printing-with-a-blank-png-image_13485404.png" alt="Camiseta Básica">
-            <h3>Camiseta Basica</h3>
-            <p>$50.000</p>
-            <button>+</button>
-        </div>
-        <div class="card">
-            <img src="https://png.pngtree.com/png-vector/20240815/ourmid/pngtree-classic-white-t-shirt-perfect-for-custom-printing-with-a-blank-png-image_13485404.png" alt="Camiseta Básica">
-            <h3>Camiseta Basica</h3>
-            <p>$50.000</p>
-            <button class="btn-agregar">+</button>
-        </div>
-        <div class="card">
-            <img src="https://png.pngtree.com/png-vector/20240815/ourmid/pngtree-classic-white-t-shirt-perfect-for-custom-printing-with-a-blank-png-image_13485404.png" alt="Camiseta Básica">
-            <h3>Camiseta Basica</h3>
-            <p>$50.000</p>
-            <button class="btn-agregar">+</button>
-        </div>
-        <div class="card">
-            <img src="https://png.pngtree.com/png-vector/20240815/ourmid/pngtree-classic-white-t-shirt-perfect-for-custom-printing-with-a-blank-png-image_13485404.png" alt="Camiseta Básica">
-            <h3>Camiseta Basica</h3>
-            <p>$50.000</p>
-            <button class="btn-agregar">+</button>
-        </div>
-        <div class="card">
-            <img src="https://freestorecol.com/cdn/shop/files/pantalon-basico-granada-bolsillos-azul.png?v=1729968193&width=1080" alt="Pantalon">
-            <h3>Pantalon</h3>
-            <p>$80.000</p>
-            <button class="btn-agregar">+</button>
-        </div>
-        <div class="card">
-            <img src="https://freestorecol.com/cdn/shop/files/pantalon-basico-granada-bolsillos-azul.png?v=1729968193&width=1080" alt="Pantalon">
-            <h3>Pantalon</h3>
-            <p>$80.000</p>
-            <button class="btn-agregar">+</button>
-        </div><div class="card">
-            <img src="https://freestorecol.com/cdn/shop/files/pantalon-basico-granada-bolsillos-azul.png?v=1729968193&width=1080" alt="Pantalon">
-            <h3>Pantalon</h3>
-            <p>$80.000</p>
-            <button class="btn-agregar">+</button>
-        </div>
-         </div><div class="card">
-            <img src="https://freestorecol.com/cdn/shop/files/pantalon-basico-granada-bolsillos-azul.png?v=1729968193&width=1080" alt="Pantalon">
-            <h3>Pantalon</h3>
-            <p>$80.000</p>
-            <button class="btn-agregar">+</button>
-        </div>
+    <section id="mensajeEstado" class="mensaje-estado" hidden></section>
+
+    <section class="productos" id="listaProductos">
+        <!-- Los productos se cargan dinámicamente desde la API (GET /api/productos) -->
+        <p class="cargando">Cargando productos...</p>
     </section>
 
+    <!-- Panel de administración: crear/editar/eliminar productos (CRUD) -->
+    <section class="admin" id="panelAdmin" hidden>
+        <h2>Administrar productos</h2>
+        <form id="formProducto">
+            <input type="hidden" id="productoId">
+            <label>Nombre
+                <input type="text" id="nombre" required minlength="2">
+            </label>
+            <label>Talla
+                <input type="text" id="talla" required>
+            </label>
+            <label>Color
+                <input type="text" id="color" required>
+            </label>
+            <label>Precio
+                <input type="number" id="precio" required min="1" step="1">
+            </label>
+            <label>Stock
+                <input type="number" id="stock" min="0" step="1" value="0">
+            </label>
+            <label>URL de imagen
+                <input type="url" id="imagen_url">
+            </label>
+            <div class="admin-botones">
+                <button type="submit" id="btnGuardar">Guardar producto</button>
+                <button type="button" id="btnCancelar" hidden>Cancelar edición</button>
+            </div>
+        </form>
+    </section>
 
+    <footer>
+        <p>© 2026 Angela Store</p>
+    </footer>
 
-
-
-
-
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
-<footer>
-    <p>© 2026 Angela Store</p>
-</footer>
 </html>
