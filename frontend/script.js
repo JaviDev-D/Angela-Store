@@ -5,8 +5,14 @@
  * y el formulario de administración (CRUD).
  */
 
-// Cambia esta URL si el backend corre en otra dirección/puerto.
-const API_URL = "http://localhost:3000/api/productos";
+// Detecta automáticamente si estamos en local o en producción.
+// En local usa localhost:3000; en producción, reemplaza la URL de abajo
+// por la URL real de tu backend desplegado (paso 2 del despliegue).
+const BACKEND_URL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+    ? "http://localhost:3000"
+    : "https://angela-store-backend.onrender.com";
+
+const API_URL = `${BACKEND_URL}/api/productos`;
 
 let contador = 0;
 
